@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annam Brahma - Chefs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #3a3226;
+            background-color: #d4c5a9;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal;
+        }
+
+        header {
+            background: #000000;
+            padding: 20px 0 22px;
+            position: relative;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            padding: 0 20px;
+        }
+
+        nav a {
+            color: #d4c5a9;
+            text-decoration: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            line-height: 1.2;
+        }
+
+        nav a:hover {
+            color: #c9a96e;
+        }
+
+        .header-line {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 5px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent);
+        }
+
+        .hero {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+
+        .section-title {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 48px;
+            color: #3a3226;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '♦';
+            font-size: 12px;
+            color: #c9a96e;
+        }
+
+        .chefs-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .chefs-photos {
+            flex: 0 0 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .chef-photo-frame {
+            border: 3px solid #c9a96e;
+            padding: 8px;
+            background: #fff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .chef-photo-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .chefs-info {
+            flex: 1;
+            border: 3px solid #c9a96e;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .choose-chef-title {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3a3226;
+        }
+
+        .chef-specializations {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .specialization-column {
+            flex: 1;
+            text-align: center;
+            border: 2px solid #c9a96e;
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .specialization-column:nth-child(2) {
+            border-left: 2px solid #c9a96e;
+            border-right: 2px solid #c9a96e;
+        }
+
+        .chef-name {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 22px;
+            color: #3a3226;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .specialization-text {
+            font-size: 14px;
+            color: #3a3226;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .choose-btn {
+            display: inline-block;
+            padding: 8px 25px;
+            border: 2px solid #c9a96e;
+            background: transparent;
+            color: #3a3226;
+            font-family: 'Lora', serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .choose-btn:hover {
+            background: #c9a96e;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background-color: #d4c5a9;
+            margin: 10% auto;
+            padding: 30px;
+            border: 3px solid #c9a96e;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 32px;
+            cursor: pointer;
+            color: #3a3226;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #c9a96e;
+        }
+
+        .modal-content h3 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #3a3226;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 2px solid #c9a96e;
+            background: rgba(255,255,255,0.6);
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .modal-content input:focus {
+            border-color: #8a6d3b;
+            background: rgba(255,255,255,0.8);
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 12px;
+            background: #3a3226;
+            color: #d4c5a9;
+            border: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 28px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .modal-content button:hover {
+            background: #c9a96e;
+            color: #000;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px 50px;
+            border-top: 1px solid #b8a88a;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-block h3 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            color: #3a3226;
+            margin-bottom: 12px;
+        }
+
+        .footer-block p {
+            font-size: 14px;
+            color: #3a3226;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 900px) {
+            .chefs-container { flex-direction: column; }
+            .chefs-photos { flex: 0 0 auto; width: 100%; }
+            .chef-specializations { flex-direction: column; gap: 15px; }
+            .specialization-column:nth-child(2) { border-left: 2px solid #c9a96e; border-right: 2px solid #c9a96e; }
+            nav { gap: 15px; flex-wrap: wrap; }
+            nav a { font-size: 24px; }
+            .section-title { font-size: 38px; }
+            footer { flex-direction: column; }
+        }
+
+        @media (max-width: 600px) {
+            nav a { font-size: 20px; }
+            .section-title { font-size: 32px; }
+            .choose-chef-title { font-size: 28px; }
+        }
+
+        .hero-parallax {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .hero-parallax img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            will-change: transform;
+        }
+
+        .parallax-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .parallax-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.15) 0%, transparent 70%);
+            will-change: transform;
+        }
+
+        .parallax-circle:nth-child(1) { width: 400px; height: 400px; top: 10%; right: -100px; }
+        .parallax-circle:nth-child(2) { width: 300px; height: 300px; bottom: 20%; left: -100px; }
+        .parallax-circle:nth-child(3) { width: 250px; height: 250px; top: 50%; right: 10%; }
+
+        .parallax-diamond {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(201, 169, 110, 0.2);
+            transform: rotate(45deg);
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .parallax-diamond:nth-child(4) { top: 20%; left: 5%; }
+        .parallax-diamond:nth-child(5) { top: 60%; right: 8%; }
+        .parallax-diamond:nth-child(6) { bottom: 15%; left: 10%; }
+    </style>
+</head>
+<body>
+
+    <div class="parallax-decoration">
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+        <div class="parallax-diamond"></div>
+        <div class="parallax-diamond"></div>
+        <div class="parallax-diamond"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="revies.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="hero hero-parallax">
+        <img src="Rectangle 59.png" alt="Restaurant terrace" id="heroImage">
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">Chefs</h2>
+        
+        <div class="chefs-container">
+            <div class="chefs-photos">
+                <div class="chef-photo-frame">
+                    <img src="Rectangle 60.png" alt="Chef specializing in soups">
+                </div>
+                <div class="chef-photo-frame">
+                    <img src="Rectangle 61.png" alt="Chef specializing in seafood">
+                </div>
+                <div class="chef-photo-frame">
+                    <img src="Rectangle 62.png" alt="Chef specializing in pastas">
+                </div>
+            </div>
+
+            <div class="chefs-info">
+                <h3 class="choose-chef-title">Choose a chef</h3>
+                <div class="chef-specializations">
+                    <div class="specialization-column">
+                        <div class="chef-name">Miguel Hernandez</div>
+                        <div class="specialization-text">specializes in soups</div>
+                        <a href="#" class="choose-btn" data-chef="Miguel Hernandez">Choose</a>
+                    </div>
+                    <div class="specialization-column">
+                        <div class="chef-name">Peter Fischer</div>
+                        <div class="specialization-text">specializes in seafood</div>
+                        <a href="#" class="choose-btn" data-chef="Peter Fischer">Choose</a>
+                    </div>
+                    <div class="specialization-column">
+                        <div class="chef-name">Alexander Schmidt</div>
+                        <div class="specialization-text">specializes in pastas</div>
+                        <a href="#" class="choose-btn" data-chef="Alexander Schmidt">Choose</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chefModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Choose a chef</h3>
+            <input type="text" id="customerName" placeholder="Your name" required>
+            <input type="email" id="customerEmail" placeholder="Your email (optional)">
+            <input type="date" id="bookingDate" placeholder="Booking date (optional)">
+            <button id="confirmChefBtn">Confirm</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-block">
+            <h3>Contacts</h3>
+            <p>Orenburg, Mira St., 4B</p>
+        </div>
+        <div class="footer-block">
+            <h3>Restaurant opening hours</h3>
+            <p>Mon-Sun 12.00 – 24.00</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        // Параллакс
+        window.addEventListener('scroll', function() {
+            const heroImage = document.getElementById('heroImage');
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-parallax');
+            if (heroImage && heroSection) {
+                const heroOffset = heroSection.offsetTop;
+                const heroHeight = heroSection.offsetHeight;
+                if (scrolled < heroOffset + heroHeight) {
+                    heroImage.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            }
+        });
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.parallax-circle').forEach((el, i) => {
+                el.style.transform = `translateY(${-(scrolled * (0.2 + i * 0.1))}px)`;
+            });
+            document.querySelectorAll('.parallax-diamond').forEach((el, i) => {
+                el.style.transform = `rotate(45deg) translateY(${-(scrolled * (0.3 + i * 0.15))}px)`;
+            });
+        });
+
+        // Модалка шефа
+        (function() {
+            const modal = document.getElementById('chefModal');
+            const closeModal = document.querySelector('.close-modal');
+            const confirmBtn = document.getElementById('confirmChefBtn');
+            let selectedChefName = '';
+
+            document.querySelectorAll('.choose-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    selectedChefName = this.getAttribute('data-chef');
+                    modal.style.display = 'block';
+                });
+            });
+
+            if (closeModal) closeModal.onclick = () => modal.style.display = 'none';
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+
+            if (confirmBtn) {
+                confirmBtn.onclick = async function() {
+                    const customerName = document.getElementById('customerName').value;
+                    const customerEmail = document.getElementById('customerEmail').value;
+                    const bookingDate = document.getElementById('bookingDate').value;
+                    
+                    if (!customerName.trim()) {
+                        alert('Please enter your name');
+                        return;
+                    }
+                    
+                    confirmBtn.disabled = true;
+                    confirmBtn.textContent = 'Sending...';
+                    
+                    // Отправляем в базу данных через наш API
+                    const r = await Auth.addBooking({
+                        date: bookingDate || 'Не указана',
+                        name: customerName + ' (Шеф: ' + selectedChefName + ')',
+                        guests: 1,
+                        time: '',
+                        email: customerEmail,
+                        phone: ''
+                    });
+                    
+                    if (r.success) {
+                        alert('✅ Заявка к шеф-повару успешно отправлена!');
+                        modal.style.display = 'none';
+                        document.getElementById('customerName').value = '';
+                        document.getElementById('customerEmail').value = '';
+                        document.getElementById('bookingDate').value = '';
+                        
+                        document.querySelectorAll('.choose-btn').forEach(btn => {
+                            if (btn.getAttribute('data-chef') === selectedChefName) {
+                                btn.style.background = '#c9a96e';
+                                btn.style.color = '#fff';
+                                btn.textContent = 'Selected!';
+                            }
+                        });
+                    } else {
+                        alert('❌ Ошибка: ' + r.message);
+                    }
+                    
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = 'Confirm';
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu — Элитные блюда</title>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #3a3226;
+            background-color: #d4c5a9;
+            
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal;
+        }
+
+       
+        header {
+            background: #000000;
+            padding: 20px 0 22px;
+            position: relative;
+            z-index: 10;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #d4c5a9;
+            text-decoration: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            line-height: 1.2;
+        }
+
+        nav a:hover {
+            color: #c9a96e;
+        }
+
+        .header-line {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 5px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent);
+        }
+
+       
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+    
+        .section-title {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 48px;
+            color: #3a3226;
+            text-align: center;
+            margin-bottom: 45px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '♦';
+            font-size: 12px;
+            color: #c9a96e;
+        }
+
+      
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        
+        .dish-card {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: transparent;
+        }
+
+       
+        .dish-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .dish-image {
+            flex: 1;
+            border: 6px solid #fff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: #f5efdf;
+            transition: transform 0.4s ease;
+        }
+
+        .dish-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+      
+        .dish-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .dish-info {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .dish-name {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 42px;
+            color: #3a3226;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            font-weight: normal;
+        }
+
+        .dish-description {
+            font-size: 15px;
+            line-height: 1.65;
+            margin: 15px 0 12px;
+            opacity: 0.85;
+        }
+
+        .dish-price {
+            font-size: 26px;
+            font-weight: bold;
+            color: #b8860b;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
+            display: inline-block;
+            border-bottom: 1px dashed #c9a96e;
+            padding-bottom: 3px;
+        }
+
+        
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px 50px;
+            border-top: 1px solid #b8a88a;
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(212, 197, 169, 0.5);
+        }
+
+        .footer-block h3 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            color: #3a3226;
+            margin-bottom: 12px;
+        }
+
+        .footer-block p {
+            font-size: 14px;
+            color: #3a3226;
+            line-height: 1.8;
+        }
+
+        .parallax-decor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.2) 0%, transparent 70%);
+            will-change: transform;
+        }
+
+        .deco-circle:nth-child(1) {
+            width: 450px;
+            height: 450px;
+            top: 5%;
+            right: -120px;
+        }
+
+        .deco-circle:nth-child(2) {
+            width: 320px;
+            height: 320px;
+            bottom: 15%;
+            left: -80px;
+        }
+
+        .deco-circle:nth-child(3) {
+            width: 260px;
+            height: 260px;
+            top: 40%;
+            right: 5%;
+        }
+
+        .deco-diamond {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: rgba(201, 169, 110, 0.25);
+            transform: rotate(45deg);
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .deco-diamond:nth-child(4) {
+            top: 18%;
+            left: 6%;
+        }
+
+        .deco-diamond:nth-child(5) {
+            top: 70%;
+            right: 10%;
+        }
+
+        .deco-diamond:nth-child(6) {
+            bottom: 12%;
+            left: 12%;
+        }
+
+        
+        .hero-parallax {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 460px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #c9a96e;
+        }
+
+        .hero-parallax img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 130%;
+            object-fit: cover;
+            will-change: transform;
+            display: block;
+        }
+
+        
+        @media (max-width: 900px) {
+            .dish-card, .dish-card:nth-child(even) {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .dish-image, .dish-info {
+                flex: auto;
+                width: 100%;
+            }
+            
+            nav {
+                gap: 18px;
+            }
+            
+            nav a {
+                font-size: 26px;
+            }
+            
+            .section-title {
+                font-size: 40px;
+            }
+            
+            .dish-name {
+                font-size: 34px;
+            }
+            
+            .hero-parallax {
+                height: 320px;
+            }
+            
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav a {
+                font-size: 22px;
+            }
+            
+            .section-title {
+                font-size: 34px;
+            }
+            
+            .hero-parallax {
+                height: 240px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+   
+    <div class="parallax-decor">
+        <div class="deco-circle"></div>
+        <div class="deco-circle"></div>
+        <div class="deco-circle"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-diamond"></div>
+    </div>
+
+    
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="revies.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    
+    <div class="hero-parallax" id="heroParallaxContainer">
+        <img src="Rectangle 20.png" alt="Stuffed Snails signature dish" id="parallaxHeroImg" loading="lazy">
+    </div>
+
+   
+    <div class="content">
+        <h2 class="section-title">Menu</h2>
+        
+        <div class="menu-grid">
+       
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="Rectangle 22.png" alt="Pasta with shrimp" loading="lazy">
+                </div>
+                <div class="dish-info">
+                    <h3 class="dish-name">Pasta with shrimp</h3>
+                    <p class="dish-description">Домашняя паста с тигровыми креветками в сливочно-чесночном соусе, пармезан и микрозелень. Изысканная классика.</p>
+                    <p class="dish-price">100$</p>
+                </div>
+            </div>
+
+            
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="Rectangle 24.png" alt="Fried octopuses" loading="lazy">
+                </div>
+                <div class="dish-info">
+                    <h3 class="dish-name">Fried octopuses</h3>
+                    <p class="dish-description">Средиземноморские осьминоги на гриле с картофелем фонте, оливками и пикантным соусом из красного перца.</p>
+                    <p class="dish-price">257$</p>
+                </div>
+            </div>
+
+            
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="Rectangle 23.png" alt="Stuffed snails burgundy style" loading="lazy">
+                </div>
+                <div class="dish-info">
+                    <h3 class="dish-name">Stuffed snails</h3>
+                    <p class="dish-description">Бургундские улитки, запечённые со сливочным маслом, чесноком, петрушкой и мускатным орехом. Подаётся с багетом.</p>
+                    <p class="dish-price">213$</p>
+                </div>
+            </div>
+
+           
+            <div class="dish-card">
+                <div class="dish-image">
+                    <img src="Rectangle 25.png" alt="Creamy Mushroom Soup" loading="lazy">
+                </div>
+                <div class="dish-info">
+                    <h3 class="dish-name">Creamy Mushroom Soup</h3>
+                    <p class="dish-description">Нежный суп из лесных грибов с трюфельным маслом, гренками и кедровыми орешками. Идеальное начало ужина.</p>
+                    <p class="dish-price">85$</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <footer>
+        <div class="footer-block">
+            <h3>Contacts</h3>
+            <p>Orenburg, Mira St. 4B</p>
+        </div>
+        <div class="footer-block">
+            <h3>Restaurant opening hours</h3>
+            <p>Mon-Sun 12.00 - 24.00</p>
+        </div>
+    </footer>
+
+   
+  <script src="lalall.js" defer></script>
+</body>
+</html>

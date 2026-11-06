@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annam Brahma - Reviews</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #3a3226;
+            
+            background-color: #dcd0b0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E"),
+                linear-gradient(to bottom, #e6dcc0, #d4c5a9);
+            background-blend-mode: overlay, normal;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        .parallax-decor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.15) 0%, transparent 70%);
+            will-change: transform;
+        }
+
+        .deco-circle:nth-child(1) {
+            width: 450px;
+            height: 450px;
+            top: 5%;
+            right: -120px;
+        }
+
+        .deco-circle:nth-child(2) {
+            width: 320px;
+            height: 320px;
+            bottom: 15%;
+            left: -80px;
+        }
+
+        .deco-circle:nth-child(3) {
+            width: 260px;
+            height: 260px;
+            top: 40%;
+            right: 5%;
+        }
+
+        .deco-diamond {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: rgba(201, 169, 110, 0.25);
+            transform: rotate(45deg);
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .deco-diamond:nth-child(4) {
+            top: 18%;
+            left: 6%;
+        }
+
+        .deco-diamond:nth-child(5) {
+            top: 70%;
+            right: 10%;
+        }
+
+        .deco-diamond:nth-child(6) {
+            bottom: 12%;
+            left: 12%;
+        }
+
+        
+        header {
+            background-color: #000;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 15px 20px;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #d4c5a9; 
+            text-decoration: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        
+        .header-line {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+            margin-top: 5px;
+        }
+
+       
+        .hero-parallax {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: auto;
+            overflow: hidden;
+            border-bottom: 4px solid #87CEEB;
+        }
+
+        .hero-parallax img {
+            width: 100%;
+            height: auto;
+            display: block;
+            will-change: transform;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-header h2 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 48px;
+            color: #3a3226;
+            display: inline-block;
+            background-color: #dcd0b0; 
+            padding: 0 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #c9a96e;
+            z-index: 1;
+        }
+
+       
+        .decor-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #c9a96e;
+            border-radius: 50%;
+        }
+
+        
+        .reviews-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            border: 2px solid #c9a96e;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 28px;
+            color: #3a3226;
+            font-style: italic;
+        }
+
+        .stars {
+            color: #c9a96e;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #3a3226;
+            font-style: italic;
+        }
+
+        
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 30px 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid #c9a96e;
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(220, 208, 176, 0.5);
+        }
+
+        .footer-col h3 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            color: #3a3226;
+            margin-bottom: 10px;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            color: #3a3226;
+            line-height: 1.5;
+        }
+
+       
+        @media (max-width: 768px) {
+            nav {
+                gap: 15px;
+            }
+            nav a {
+                font-size: 24px;
+            }
+            
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+            }
+            
+            .deco-circle:nth-child(1) {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .deco-circle:nth-child(2) {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="parallax-decor">
+        <div class="deco-circle"></div>
+        <div class="deco-circle"></div>
+        <div class="deco-circle"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-diamond"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="revies.html">Reviews</a> 
+            <a href="chefs.html">Chefs</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="hero-parallax" id="heroParallaxContainer">
+        <img src="Rectangle 55.png" alt="Restaurant Terrace View" id="parallaxHeroImg">
+    </div>
+
+   
+    <div class="content">
+        
+        
+        <div class="section-header">
+            <div class="decor-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <h2>Reviews</h2>
+        </div>
+
+      
+        <div class="reviews-grid">
+            
+            <!-- Review 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Mark</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <p class="review-text">I liked everything and the service was excellent</p>
+            </div>
+
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Tom</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <p class="review-text">excellent service, delicious dishes, wonderful staff</p>
+            </div>
+
+           
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Anastasiya</span>
+                    <span class="stars">★★★★☆</span>
+                </div>
+                <p class="review-text">I really liked the pasta the chef is superior</p>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <footer>
+        <div class="footer-col">
+            <h3>Contacts</h3>
+            <p>Orenburg, Mira St., 4B</p>
+        </div>
+        <div class="footer-col">
+            <h3>Restaurant opening hours</h3>
+            <p>Mon-Sun 12.00 – 24.00</p>
+        </div>
+    </footer>
+
+    
+    <script>
+        (function() {
+            
+            const heroImg = document.getElementById('parallaxHeroImg');
+            const heroContainer = document.getElementById('heroParallaxContainer');
+            
+            if (heroImg && heroContainer) {
+                window.addEventListener('scroll', function() {
+                    const scrollPosition = window.pageYOffset;
+                    const containerTop = heroContainer.offsetTop;
+                    const containerHeight = heroContainer.offsetHeight;
+                    
+                   
+                    if (scrollPosition < containerTop + containerHeight && scrollPosition + window.innerHeight > containerTop) {
+                      
+                        const translateY = scrollPosition * 0.3;
+                        heroImg.style.transform = `translateY(${translateY}px)`;
+                    } else if (scrollPosition >= containerTop + containerHeight) {
+                       
+                        heroImg.style.transform = `translateY(${containerHeight * 0.3}px)`;
+                    }
+                });
+            }
+
+            
+            const circles = document.querySelectorAll('.deco-circle');
+            const diamonds = document.querySelectorAll('.deco-diamond');
+            
+            if (circles.length || diamonds.length) {
+                window.addEventListener('scroll', function() {
+                    const scrolled = window.pageYOffset;
+                    
+                    
+                    circles.forEach((circle, idx) => {
+                       
+                        const speeds = [0.15, 0.25, 0.2];
+                        const speed = speeds[idx % speeds.length];
+                        const yOffset = scrolled * speed;
+                        circle.style.transform = `translateY(${yOffset}px)`;
+                    });
+                    
+                    
+                    diamonds.forEach((diamond, idx) => {
+                        const speedsDiamond = [0.3, 0.4, 0.22];
+                        const speed = speedsDiamond[idx % speedsDiamond.length];
+                        const yOffset = scrolled * speed;
+                       
+                        diamond.style.transform = `rotate(45deg) translateY(${yOffset}px)`;
+                    });
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>

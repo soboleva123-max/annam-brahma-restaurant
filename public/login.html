@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annam Brahma - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lora', Georgia, serif;
+            color: #3a3226;
+            background-color: #d4c5a9;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+        header { background: #000; padding: 20px 0 22px; flex-shrink: 0; }
+        nav {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: center; gap: 35px;
+            padding: 0 20px; flex-wrap: wrap;
+        }
+        nav a {
+            color: #d4c5a9; text-decoration: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px; letter-spacing: 2px;
+            transition: color .3s; line-height: 1.2;
+        }
+        nav a:hover { color: #c9a96e; }
+        .header-line {
+            max-width: 1200px; margin: 5px auto 0; height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent);
+        }
+        .content {
+            max-width: 1200px; margin: 0 auto;
+            padding: 60px 30px; flex: 1; width: 100%;
+        }
+        .section-title {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 56px; color: #3a3226; text-align: center;
+            margin-bottom: 40px; display: flex;
+            align-items: center; justify-content: center; gap: 15px;
+        }
+        .section-title::before, .section-title::after {
+            content: '♦'; font-size: 14px; color: #c9a96e;
+        }
+        .auth-wrap {
+            max-width: 520px; margin: 0 auto;
+            border: 3px solid #c9a96e;
+            background: rgba(255,255,255,0.4);
+            padding: 40px 35px;
+            box-shadow: 0 3px 15px rgba(0,0,0,.12);
+        }
+        .tabs {
+            display: flex; margin-bottom: 30px;
+            border-bottom: 2px solid #c9a96e;
+        }
+        .tab {
+            flex: 1; text-align: center; padding: 10px 0;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 30px; color: #3a3226;
+            cursor: pointer; transition: color .3s, border-color .3s;
+            border-bottom: 3px solid transparent; margin-bottom: -2px;
+        }
+        .tab.active { color: #b8860b; border-bottom-color: #b8860b; }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 20px; }
+        .form-group label {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 26px; color: #3a3226; margin-bottom: 8px; padding-left: 5px;
+        }
+        .form-group input {
+            background: transparent; border: 2px solid #c9a96e;
+            padding: 13px 15px; font-family: 'Lora', serif; font-size: 17px;
+            color: #3a3226; outline: none;
+            transition: border-color .3s, background-color .3s;
+        }
+        .form-group input:focus {
+            border-color: #8a6d3b; background: rgba(255,255,255,0.5);
+        }
+        .submit-btn {
+            width: 100%; background: #3a3226; color: #d4c5a9; border: none;
+            padding: 15px 50px; font-family: 'Luxurious Script', cursive;
+            font-size: 30px; cursor: pointer; transition: background .3s;
+            margin-top: 10px;
+        }
+        .submit-btn:hover { background: #c9a96e; color: #000; }
+        .submit-btn:disabled { opacity: .6; cursor: wait; }
+        .msg {
+            margin-top: 18px; padding: 12px; text-align: center;
+            font-size: 15px; border: 1px solid transparent;
+        }
+        .msg.ok  { color: #2e6b2e; border-color: #7bbd7b; background: rgba(180,230,180,.35); }
+        .msg.err { color: #8b1a1a; border-color: #cf8a8a; background: rgba(240,190,190,.35); }
+        .hint {
+            text-align: center; margin-top: 25px;
+            font-size: 13px; color: #7a6a52; font-style: italic;
+        }
+        .hidden { display: none !important; }
+        @media (max-width: 600px) {
+            nav a { font-size: 20px; }
+            .section-title { font-size: 38px; }
+            .tab { font-size: 24px; }
+            .auth-wrap { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="revies.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="content">
+        <h2 class="section-title">Welcome</h2>
+
+        <div class="auth-wrap">
+            <div class="tabs">
+                <div class="tab active" data-tab="login">Sign In</div>
+                <div class="tab" data-tab="register">Register</div>
+            </div>
+
+            <!-- ВХОД -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input type="text" id="login" placeholder="admin или user" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+                <div id="loginMsg" class="msg hidden"></div>
+            </form>
+
+            <!-- РЕГИСТРАЦИЯ -->
+            <form id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label for="rLogin">Login</label>
+                    <input type="text" id="rLogin" placeholder="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="rName">Full name</label>
+                    <input type="text" id="rName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="rEmail">Email</label>
+                    <input type="email" id="rEmail" placeholder="john@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="rPhone">Phone</label>
+                    <input type="tel" id="rPhone" placeholder="+7 900 000 00 00">
+                </div>
+                <div class="form-group">
+                    <label for="rPassword">Password</label>
+                    <input type="password" id="rPassword" placeholder="минимум 6 символов" required>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+                <div id="registerMsg" class="msg hidden"></div>
+            </form>
+
+            <div class="hint">Демо-аккаунты:&nbsp; admin / Admin123! &nbsp;•&nbsp; user / User123!</div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        (function () {
+            
+            const me = Auth.me();
+            
+
+            const tabs = document.querySelectorAll('.tab');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            tabs.forEach(tab => tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const isLogin = tab.dataset.tab === 'login';
+                loginForm.classList.toggle('hidden', !isLogin);
+                registerForm.classList.toggle('hidden', isLogin);
+            }));
+
+            function showMsg(el, text, ok) {
+                el.textContent = text;
+                el.className = 'msg ' + (ok ? 'ok' : 'err');
+                el.classList.remove('hidden');
+                clearTimeout(el._t);
+                el._t = setTimeout(() => el.classList.add('hidden'), 5000);
+            }
+
+          
+            loginForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const msg = document.getElementById('loginMsg');
+                const res = Auth.login(
+                    document.getElementById('login').value,
+                    document.getElementById('password').value
+                );
+                if (res.success) {
+                    showMsg(msg, '✓ ' + res.message, true);
+                    setTimeout(() => window.location.href = res.redirect, 600);
+                } else {
+                    showMsg(msg, '✗ ' + res.message, false);
+                }
+            });
+
+            // регистрация
+            registerForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const msg = document.getElementById('registerMsg');
+                const res = Auth.register({
+                    login:    document.getElementById('rLogin').value,
+                    fullname: document.getElementById('rName').value,
+                    email:    document.getElementById('rEmail').value,
+                    phone:    document.getElementById('rPhone').value,
+                    password: document.getElementById('rPassword').value
+                });
+                if (res.success) {
+                    showMsg(msg, '✓ ' + res.message, true);
+                    const login = document.getElementById('rLogin').value;
+                    registerForm.reset();
+                    setTimeout(() => {
+                        document.querySelector('.tab[data-tab="login"]').click();
+                        document.getElementById('login').value = login;
+                    }, 900);
+                } else {
+                    showMsg(msg, '✗ ' + res.message, false);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

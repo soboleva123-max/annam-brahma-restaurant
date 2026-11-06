@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annam Brahma - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lora', Georgia, serif; color: #3a3226; background-color: #d4c5a9;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"), linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal; min-height: 100vh; display: flex; flex-direction: column;
+        }
+        header { background: #000; padding: 20px 0 22px; flex-shrink: 0; }
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 35px; padding: 0 20px; flex-wrap: wrap; }
+        nav a, nav button { color: #d4c5a9; background: none; border: none; cursor: pointer; text-decoration: none; font-family: 'Luxurious Script', cursive; font-size: 32px; letter-spacing: 2px; transition: color .3s; line-height: 1.2; }
+        nav a:hover, nav button:hover { color: #c9a96e; }
+        .header-line { max-width: 1200px; margin: 5px auto 0; height: 1px; background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent); }
+        
+        .content { max-width: 1200px; margin: 0 auto; padding: 50px 30px; flex: 1; width: 100%; }
+        .section-title { font-family: 'Luxurious Script', cursive; font-size: 48px; color: #3a3226; text-align: center; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .section-title::before, .section-title::after { content: '♦'; font-size: 12px; color: #c9a96e; }
+        .welcome { text-align: center; font-style: italic; font-size: 20px; margin-bottom: 30px; color: #5a4a30; }
+
+        .stats { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 35px; }
+        .stat-card { flex: 1; min-width: 170px; max-width: 220px; border: 2px solid #c9a96e; padding: 20px; background: rgba(255,255,255,0.45); text-align: center; }
+        .stat-card .num { font-family: 'Luxurious Script', cursive; font-size: 46px; color: #b8860b; line-height: 1; }
+        .stat-card .lbl { font-size: 15px; margin-top: 6px; color: #5a4a30; }
+
+        .tabs { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 25px; }
+        .tabs button { background: transparent; border: 2px solid #c9a96e; padding: 8px 20px; font-family: 'Luxurious Script', cursive; font-size: 22px; color: #3a3226; cursor: pointer; transition: all .3s; }
+        .tabs button.active, .tabs button:hover { background: #c9a96e; color: #fff; }
+
+        .table-wrap { border: 3px solid #c9a96e; background: rgba(255,255,255,0.4); padding: 20px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(201,169,110,.5); vertical-align: top; }
+        th { font-family: 'Luxurious Script', cursive; font-size: 22px; color: #3a3226; background: rgba(201,169,110,.2); position: sticky; top: 0; }
+        tr:hover td { background: rgba(201,169,110,.08); }
+
+        .btn { display: inline-block; padding: 4px 12px; margin: 2px; border: 2px solid #c9a96e; background: transparent; font-family: 'Lora', serif; font-size: 13px; color: #3a3226; cursor: pointer; transition: all .25s; border-radius: 2px; }
+        .btn:hover { background: #c9a96e; color: #fff; }
+        .btn-danger { border-color: #a14b4b; color: #7a2c2c; }
+        .btn-danger:hover { background: #a14b4b; color: #fff; }
+        .btn-gold { background: #c9a96e; color: #fff; }
+        .btn-gold:hover { background: #b8860b; }
+        .btn-sm { padding: 2px 8px; font-size: 12px; }
+
+        .toolbar { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px; }
+        .toolbar h3 { font-family: 'Luxurious Script', cursive; font-size: 30px; color: #3a3226; }
+        .empty { text-align: center; padding: 30px; font-style: italic; color: #7a6a52; }
+
+        /* Модальное окно */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 999; justify-content: center; align-items: center; padding: 20px; }
+        .modal.open { display: flex; }
+        .modal-box { background: #d4c5a9; border: 3px solid #c9a96e; max-width: 600px; width: 100%; padding: 30px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+        .modal-box h3 { font-family: 'Luxurious Script', cursive; font-size: 34px; text-align: center; margin-bottom: 20px; color: #3a3226; }
+        .modal-box label { display: block; font-family: 'Luxurious Script', cursive; font-size: 22px; color: #3a3226; margin: 10px 0 5px; padding-left: 4px; }
+        .modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 10px 12px; border: 2px solid #c9a96e; background: rgba(255,255,255,.6); font-family: 'Lora', serif; font-size: 15px; color: #3a3226; outline: none; }
+        .modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { border-color: #8a6d3b; background: rgba(255,255,255,.9); }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
+        .modal-actions .btn { padding: 8px 20px; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="profile.html">Cabinet</a>
+            <button onclick="Auth.logout()">Logout</button>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="content">
+        <h2 class="section-title">Admin Panel</h2>
+        <p class="welcome" id="welcome"></p>
+        <div class="stats" id="stats"></div>
+        <div class="tabs" id="tabs"></div>
+        <div class="table-wrap" id="tableArea"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <h3 id="modalTitle">Заголовок</h3>
+            <div id="modalBody"></div>
+            <div class="modal-actions" id="modalActions">
+                <button class="btn" onclick="closeModal()">Отмена</button>
+                <button class="btn btn-gold" id="modalSave" onclick="saveModal()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+    (function () {
+        if (!Auth.requireAdmin()) return;
+
+        const me = Auth.me();
+        document.getElementById('welcome').innerHTML = `Вы вошли как <b>${me.name}</b> (${me.login}) • роль: <b>${me.role}</b>`;
+
+        let data = {};
+        let currentTab = 'users';
+        let modalCtx = null;
+
+        const TABS = [
+            { key: 'users',    label: 'Users' },
+            { key: 'sessions', label: 'Sessions' },
+            { key: 'audit',    label: 'Audit Log' },
+            { key: 'messages', label: 'Messages' },
+            { key: 'settings', label: 'Settings' },
+            { key: 'bookings', label: 'Bookings' },
+            { key: 'chats',    label: 'Чаты с юзерами' } // НОВАЯ ВКЛАДКА
+        ];
+
+        function refresh() {
+            data = Auth.getAll();
+            renderStats();
+            renderTabs();
+            renderTable(currentTab);
+        }
+
+        function renderStats() {
+            const stats = [
+                { num: data.users.length,    lbl: 'Пользователей' },
+                { num: data.bookings.length, lbl: 'Бронирований' },
+                { num: data.messages.length, lbl: 'Сообщений' },
+                { num: data.audit.length,    lbl: 'Записей аудита' }
+            ];
+            document.getElementById('stats').innerHTML = stats.map(s => `
+                <div class="stat-card">
+                    <div class="num">${s.num}</div>
+                    <div class="lbl">${s.lbl}</div>
+                </div>`).join('');
+        }
+
+        function renderTabs() {
+            const tabsEl = document.getElementById('tabs');
+            tabsEl.innerHTML = '';
+            TABS.forEach(t => {
+                const b = document.createElement('button');
+                b.textContent = t.label;
+                if (t.key === currentTab) b.classList.add('active');
+                b.onclick = () => { currentTab = t.key; refresh(); };
+                tabsEl.appendChild(b);
+            });
+        }
+
+        function renderTable(key) {
+            const area = document.getElementById('tableArea');
+            const rows = data[key] || [];
+
+            let toolbarHtml = '';
+            let addBtn = '';
+
+            if (key === 'users') addBtn = `<button class="btn btn-gold" onclick="openCreateUser()">+ Добавить пользователя</button>`;
+            else if (key === 'settings') addBtn = `<button class="btn btn-gold" onclick="openCreateSetting()">+ Добавить настройку</button>`;
+            else if (key === 'audit') addBtn = `<button class="btn btn-danger" onclick="clearAudit()">Очистить аудит</button>`;
+
+            toolbarHtml = `
+                <div class="toolbar">
+                    <h3>${TABS.find(t => t.key === key).label} <span style="font-size:18px;opacity:.6">(${rows.length})</span></h3>
+                    <div>${addBtn}</div>
+                </div>`;
+
+            if (!rows.length && key !== 'chats') {
+                area.innerHTML = toolbarHtml + `<p class="empty">Таблица пуста</p>`;
+                return;
+            }
+
+            let head, body;
+
+            if (key === 'users') {
+                head = `<th>ID</th><th>Login</th><th>Имя</th><th>Email</th><th>Телефон</th><th>Роль</th><th>Создан</th><th>Действия</th>`;
+                body = rows.map(u => `
+                    <tr>
+                        <td>${u.id}</td><td>${esc(u.login)}</td><td>${esc(u.fullname)}</td><td>${esc(u.email)}</td><td>${esc(u.phone)}</td>
+                        <td><b style="color:${u.role === 'admin' ? '#b8860b' : '#5a4a30'}">${u.role}</b></td>
+                        <td>${fmtDate(u.createdAt)}</td>
+                        <td>
+                            <button class="btn btn-sm" onclick="openEditUser(${u.id})">✎</button>
+                            <button class="btn btn-sm" onclick="toggleRole(${u.id})">${u.role === 'admin' ? '→ user' : '→ admin'}</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})">✕</button>
+                        </td>
+                    </tr>`).join('');
+            }
+            else if (key === 'sessions') {
+                head = `<th>Token</th><th>UserID</th><th>Истекает</th><th></th>`;
+                body = rows.map(s => `
+                    <tr>
+                        <td style="font-size:12px">${esc(s.token.slice(0, 20))}…</td>
+                        <td>${s.userId}</td><td>${fmtDate(s.expiresAt)}</td>
+                        <td><button class="btn btn-sm btn-danger" onclick="killSession('${s.token}')">Завершить</button></td>
+                    </tr>`).join('');
+            }
+            else if (key === 'audit') {
+                head = `<th>ID</th><th>UserID</th><th>Действие</th><th>Детали</th><th>Когда</th>`;
+                body = rows.map(a => `
+                    <tr>
+                        <td>${a.id}</td><td>${a.userId ?? '—'}</td><td>${esc(a.action)}</td>
+                        <td>${esc(a.details || '')}</td><td>${fmtDate(a.at)}</td>
+                    </tr>`).join('');
+            }
+            else if (key === 'messages') {
+                head = `<th>ID</th><th>От</th><th>Тема</th><th>Текст</th><th>Прочитано</th><th>Когда</th><th></th>`;
+                body = rows.map(m => `
+                    <tr style="${m.isRead ? '' : 'background:rgba(201,169,110,.15)'}">
+                        <td>${m.id}</td><td>${m.fromUserId}</td><td>${esc(m.subject || '')}</td>
+                        <td>${esc(m.text || m.body || '')}</td><td>${m.isRead ? '✓' : '—'}</td>
+                        <td>${fmtDate(m.at)}</td>
+                        <td>
+                            ${!m.isRead ? `<button class="btn btn-sm" onclick="markRead(${m.id})">Прочитано</button>` : ''}
+                            <button class="btn btn-sm btn-danger" onclick="deleteMsg(${m.id})">✕</button>
+                        </td>
+                    </tr>`).join('');
+            }
+            else if (key === 'settings') {
+                head = `<th>Ключ</th><th>Значение</th><th>Действия</th>`;
+                body = rows.map(s => `
+                    <tr>
+                        <td>${esc(s.key)}</td><td>${esc(s.value)}</td>
+                        <td>
+                            <button class="btn btn-sm" onclick="editSetting('${escAttr(s.key)}','${escAttr(s.value)}')">✎</button>
+                            <button class="btn btn-sm btn-danger" onclick="delSetting('${escAttr(s.key)}')">✕</button>
+                        </td>
+                    </tr>`).join('');
+            }
+            else if (key === 'bookings') {
+                head = `<th>Дата</th><th>Имя</th><th>Гостей</th><th>Время</th><th>Email</th><th>Телефон</th><th></th>`;
+                body = rows.map(b => `
+                    <tr>
+                        <td>${esc(b.date)}</td><td>${esc(b.name)}</td><td>${esc(String(b.guests))}</td>
+                        <td>${esc(b.time)}</td><td>${esc(b.email)}</td><td>${esc(b.phone)}</td>
+                        <td>
+                            <button class="btn btn-sm" onclick="editBooking(${b.id})">✎</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBooking(${b.id})">✕</button>
+                        </td>
+                    </tr>`).join('');
+            }
+            // НОВЫЙ БЛОК: ЧАТЫ
+            else if (key === 'chats') {
+                // Ищем всех юзеров, с которыми была переписка
+                const chatUserIds = [...new Set(rows.map(m => m.fromUserId).concat(rows.map(m => m.toUserId)))]
+                    .filter(id => id !== null && id !== me.id);
+                
+                head = `<th>Пользователь</th><th>Последнее сообщение</th><th>Время</th><th>Действие</th>`;
+                body = chatUserIds.map(uid => {
+                    const user = data.users.find(u => u.id === uid);
+                    if (!user) return '';
+                    
+                    const userMsgs = Auth.getChat(uid);
+                    const lastMsg = userMsgs[userMsgs.length - 1];
+                    if (!lastMsg) return '';
+
+                    return `
+                    <tr>
+                        <td><b>${esc(user.fullname)}</b> <br><small>(${esc(user.login)})</small></td>
+                        <td>${esc(lastMsg.text.substring(0, 60))}${lastMsg.text.length > 60 ? '...' : ''}</td>
+                        <td>${fmtDate(lastMsg.at)}</td>
+                        <td><button class="btn btn-gold btn-sm" onclick="openChat(${uid})">Открыть</button></td>
+                    </tr>`;
+                }).join('');
+                
+                if (!body) body = `<tr><td colspan="4" class="empty">Нет активных чатов</td></tr>`;
+            }
+
+            area.innerHTML = toolbarHtml + `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+        }
+
+        // Утилиты
+        function esc(s) {
+            return String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+        }
+        function escAttr(s) { return String(s ?? '').replace(/'/g, "\\'"); }
+        function fmtDate(d) {
+            if (!d) return '';
+            const dt = new Date(d);
+            return isNaN(dt) ? String(d) : dt.toLocaleString('ru-RU');
+        }
+        function toast(msg, ok = true) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            Object.assign(t.style, {
+                position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
+                padding: '12px 20px', background: ok ? '#2e6b2e' : '#8b1a1a',
+                color: '#fff', borderRadius: '4px', fontFamily: 'Lora, serif',
+                boxShadow: '0 4px 15px rgba(0,0,0,.3)', transition: 'opacity .4s'
+            });
+            document.body.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; }, 2000);
+            setTimeout(() => t.remove(), 2500);
+        }
+
+        // Модальное окно
+        function openModal(title, fieldsHtml, onSave) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = fieldsHtml;
+            document.getElementById('modal').classList.add('open');
+            modalCtx = { onSave };
+            
+            const saveBtn = document.getElementById('modalSave');
+            if (onSave) { saveBtn.style.display = 'inline-block'; saveBtn.onclick = window.saveModal; }
+            else { saveBtn.style.display = 'none'; }
+        }
+        window.closeModal = function () {
+            document.getElementById('modal').classList.remove('open');
+            modalCtx = null;
+        };
+        window.saveModal = function () { if (modalCtx && modalCtx.onSave) modalCtx.onSave(); };
+
+        // USERS
+        window.openCreateUser = function () {
+            openModal('Новый пользователь', `
+                <label>Login</label><input id="f_login">
+                <label>Пароль</label><input id="f_password" type="password">
+                <label>Имя</label><input id="f_fullname">
+                <label>Email</label><input id="f_email">
+                <label>Телефон</label><input id="f_phone">
+                <label>Роль</label>
+                <select id="f_role"><option value="user">user</option><option value="admin">admin</option></select>
+            `, () => {
+                const r = Auth.createUser({
+                    login: document.getElementById('f_login').value,
+                    password: document.getElementById('f_password').value,
+                    fullname: document.getElementById('f_fullname').value,
+                    email: document.getElementById('f_email').value,
+                    phone: document.getElementById('f_phone').value,
+                    role: document.getElementById('f_role').value
+                });
+                toast(r.message, r.success);
+                if (r.success) { closeModal(); refresh(); }
+            });
+        };
+
+        window.openEditUser = function (id) {
+            const u = data.users.find(x => x.id === id);
+            if (!u) return;
+            openModal('Редактирование', `
+                <label>Login</label><input id="f_login" value="${escAttr(u.login)}">
+                <label>Новый пароль</label><input id="f_password" type="password" placeholder="Оставьте пустым">
+                <label>Имя</label><input id="f_fullname" value="${escAttr(u.fullname)}">
+                <label>Email</label><input id="f_email" value="${escAttr(u.email)}">
+                <label>Телефон</label><input id="f_phone" value="${escAttr(u.phone)}">
+                <label>Роль</label>
+                <select id="f_role">
+                    <option value="user" ${u.role === 'user' ? 'selected' : ''}>user</option>
+                    <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>admin</option>
+                </select>
+            `, () => {
+                const patch = {
+                    login: document.getElementById('f_login').value,
+                    fullname: document.getElementById('f_fullname').value,
+                    email: document.getElementById('f_email').value,
+                    phone: document.getElementById('f_phone').value,
+                    role: document.getElementById('f_role').value
+                };
+                const pwd = document.getElementById('f_password').value;
+                if (pwd) patch.password = pwd;
+                const r = Auth.updateUser(id, patch);
+                toast(r.message, r.success);
+                if (r.success) { closeModal(); refresh(); }
+            });
+        };
+
+        window.toggleRole = function (id) {
+            const u = data.users.find(x => x.id === id);
+            if (!u || !confirm(`Сменить роль ${u.login}?`)) return;
+            const r = Auth.updateUser(id, { role: u.role === 'admin' ? 'user' : 'admin' });
+            toast(r.message, r.success);
+            if (r.success) refresh();
+        };
+
+        window.deleteUser = function (id) {
+            const u = data.users.find(x => x.id === id);
+            if (!u || !confirm(`Удалить ${u.login}?`)) return;
+            const r = Auth.deleteUser(id);
+            toast(r.message, r.success);
+            if (r.success) refresh();
+        };
+
+        // SESSIONS / AUDIT / MESSAGES
+        window.killSession = function (token) {
+            if (!confirm('Завершить сессию?')) return;
+            const r = Auth.killSession(token);
+            toast(r.message, r.success); if (r.success) refresh();
+        };
+        window.clearAudit = function () {
+            if (!confirm('Очистить аудит?')) return;
+            const r = Auth.clearAudit(); toast(r.message, r.success); if (r.success) refresh();
+        };
+        window.markRead = function (id) {
+            const r = Auth.markMessageRead(id); toast(r.message, r.success); if (r.success) refresh();
+        };
+        window.deleteMsg = function (id) {
+            if (!confirm('Удалить сообщение?')) return;
+            const r = Auth.deleteMessage(id); toast(r.message, r.success); if (r.success) refresh();
+        };
+
+        // SETTINGS
+        window.openCreateSetting = function () {
+            openModal('Новая настройка', `<label>Ключ</label><input id="f_key"><label>Значение</label><input id="f_value">`, () => {
+                const r = Auth.updateSetting(document.getElementById('f_key').value, document.getElementById('f_value').value);
+                toast(r.message, r.success); if (r.success) { closeModal(); refresh(); }
+            });
+        };
+        window.editSetting = function (key, value) {
+            openModal('Редактирование', `<label>Ключ</label><input id="f_key" value="${escAttr(key)}" readonly><label>Значение</label><input id="f_value" value="${escAttr(value)}">`, () => {
+                const r = Auth.updateSetting(document.getElementById('f_key').value, document.getElementById('f_value').value);
+                toast(r.message, r.success); if (r.success) { closeModal(); refresh(); }
+            });
+        };
+        window.delSetting = function (key) {
+            if (!confirm(`Удалить "${key}"?`)) return;
+            const r = Auth.deleteSetting(key); toast(r.message, r.success); if (r.success) refresh();
+        };
+
+        // BOOKINGS
+        window.editBooking = function (id) {
+            const b = data.bookings.find(x => x.id === id); if (!b) return;
+            openModal('Редактирование брони', `
+                <label>Дата</label><input id="f_date" type="date" value="${escAttr(b.date)}">
+                <label>Время</label><input id="f_time" type="time" value="${escAttr(b.time)}">
+                <label>Имя</label><input id="f_name" value="${escAttr(b.name)}">
+                <label>Гостей</label><input id="f_guests" type="number" min="1" value="${escAttr(String(b.guests))}">
+                <label>Email</label><input id="f_email" value="${escAttr(b.email)}">
+                <label>Телефон</label><input id="f_phone" value="${escAttr(b.phone)}">
+            `, () => {
+                const r = Auth.updateBooking(id, {
+                    date: document.getElementById('f_date').value,
+                    time: document.getElementById('f_time').value,
+                    name: document.getElementById('f_name').value,
+                    guests: Number(document.getElementById('f_guests').value),
+                    email: document.getElementById('f_email').value,
+                    phone: document.getElementById('f_phone').value
+                });
+                toast(r.message, r.success); if (r.success) { closeModal(); refresh(); }
+            });
+        };
+        window.deleteBooking = function (id) {
+            if (!confirm('Удалить бронь?')) return;
+            const r = Auth.deleteBooking(id); toast(r.message, r.success); if (r.success) refresh();
+        };
+
+        // ЧАТ С ЮЗЕРОМ
+        window.openChat = function(userId) {
+            const user = data.users.find(u => u.id === userId);
+            if (!user) return;
+
+            const chatHtml = `
+                <div style="height: 300px; overflow-y: auto; border: 2px solid #c9a96e; padding: 15px; background: rgba(255,255,255,0.6); margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;" id="adminChatBox">
+                    ${renderAdminChatMessages(userId)}
+                </div>
+                <label>Ответить:</label>
+                <div style="display:flex; gap:10px;">
+                    <input id="adminChatInput" placeholder="Введите сообщение..." style="flex:1;">
+                    <button class="btn btn-gold" onclick="sendAdminMessage(${userId})">Отправить</button>
+                </div>
+            `;
+
+            openModal(`Чат с ${user.fullname}`, chatHtml, null);
+            const box = document.getElementById('adminChatBox');
+            box.scrollTop = box.scrollHeight;
+        };
+
+        function renderAdminChatMessages(userId) {
+            const msgs = Auth.getChat(userId);
+            if (msgs.length === 0) return '<div style="text-align:center; color:#999; font-style:italic;">Нет сообщений</div>';
+            
+            return msgs.map(m => {
+                const isAdmin = m.fromUserId === me.id;
+                return `
+                    <div style="align-self: ${isAdmin ? 'flex-end' : 'flex-start'}; background: ${isAdmin ? '#c9a96e' : '#fff'}; color: ${isAdmin ? '#fff' : '#3a3226'}; padding: 10px 15px; border-radius: 10px; max-width: 80%; border: 1px solid ${isAdmin ? '#c9a96e' : '#ccc'};">
+                        <div>${esc(m.text)}</div>
+                        <div style="font-size: 10px; opacity: 0.8; margin-top: 5px; text-align: right;">${fmtDate(m.at)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.sendAdminMessage = function(userId) {
+            const input = document.getElementById('adminChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            Auth.replyToUser(userId, text);
+            data = Auth.getAll(); 
+            document.getElementById('adminChatBox').innerHTML = renderAdminChatMessages(userId);
+            document.getElementById('adminChatBox').scrollTop = document.getElementById('adminChatBox').scrollHeight;
+            input.value = '';
+            renderTable('chats'); 
+        };
+
+        
+        document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+        refresh();
+    })();
+    </script>
+</body>
+</html>

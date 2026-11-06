@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts - Annam Brahma Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gentium Book Plus', serif;
+            color: #3a3226;
+            background-color: #d4c5a9;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal;
+        }
+
+        header {
+            background: #000000;
+            padding: 20px 0 22px;
+            position: relative;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            padding: 0 20px;
+        }
+
+        nav a {
+            color: #d4c5a9;
+            text-decoration: none;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            line-height: 1.2;
+        }
+
+        nav a:hover {
+            color: #c9a96e;
+        }
+
+        .header-line {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 5px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent);
+        }
+
+        .hero {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+
+        .section-title {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 48px;
+            color: #3a3226;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '♦';
+            font-size: 12px;
+            color: #c9a96e;
+        }
+
+        .divider {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e 30%, #c9a96e 70%, transparent);
+        }
+
+        .contacts-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .map-container {
+            flex: 0 0 350px;
+            border: 3px solid #c9a96e;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 250px;
+            border: none;
+        }
+
+        .contact-form {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 28px;
+            color: #3a3226;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .form-group input, .form-group textarea {
+            background: transparent;
+            border: 2px solid #c9a96e;
+            padding: 12px 15px;
+            font-family: 'Gentium Book Plus', serif;
+            font-size: 16px;
+            color: #3a3226;
+            outline: none;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #8a6d3b;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .submit-btn {
+            background-color: #3a3226;
+            color: #d4c5a9;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Luxurious Script', cursive;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: auto;
+            justify-self: center;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #c9a96e;
+            color: #000;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 40px;
+            border-top: 1px solid #c9a96e;
+            padding-top: 40px;
+        }
+
+        .info-card {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #c9a96e;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .info-card h4 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #3a3226;
+        }
+
+        .info-card p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px 50px;
+            border-top: 1px solid #b8a88a;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-block h3 {
+            font-family: 'Luxurious Script', cursive;
+            font-size: 32px;
+            color: #3a3226;
+            margin-bottom: 12px;
+        }
+
+        .footer-block p {
+            font-size: 14px;
+            color: #3a3226;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 900px) {
+            .contacts-container { flex-direction: column; }
+            .map-container { flex: 0 0 auto; width: 100%; }
+            .contact-form { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .contact-info { flex-direction: column; }
+            nav { gap: 15px; flex-wrap: wrap; }
+            nav a { font-size: 24px; }
+            .section-title { font-size: 38px; }
+            footer { flex-direction: column; }
+        }
+
+        @media (max-width: 600px) {
+            nav a { font-size: 20px; }
+            .section-title { font-size: 32px; }
+            .form-group label { font-size: 24px; }
+        }
+
+        .hero-parallax {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .hero-parallax img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            will-change: transform;
+        }
+
+        .parallax-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .parallax-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.15) 0%, transparent 70%);
+            will-change: transform;
+        }
+
+        .parallax-circle:nth-child(1) { width: 400px; height: 400px; top: 10%; right: -100px; }
+        .parallax-circle:nth-child(2) { width: 300px; height: 300px; bottom: 20%; left: -100px; }
+        .parallax-circle:nth-child(3) { width: 250px; height: 250px; top: 50%; right: 10%; }
+
+        .parallax-diamond {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(201, 169, 110, 0.2);
+            transform: rotate(45deg);
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .parallax-diamond:nth-child(4) { top: 20%; left: 5%; }
+        .parallax-diamond:nth-child(5) { top: 60%; right: 8%; }
+        .parallax-diamond:nth-child(6) { bottom: 15%; left: 10%; }
+    </style>
+</head>
+<body>
+
+    <div class="parallax-decoration">
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+        <div class="parallax-circle"></div>
+        <div class="parallax-diamond"></div>
+        <div class="parallax-diamond"></div>
+        <div class="parallax-diamond"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="revies.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="hero hero-parallax">
+        <img src="Rectangle 50.png" alt="Restaurant terrace with Eiffel Tower view" id="heroImage">
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">Contacts</h2>
+        <div class="divider"></div>
+
+        <div class="contacts-container">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.5!2d55.16!3d51.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDQ2JzEyLjAiTiA1NcKwMDknMzYuMCJF!5e0!3m2!1sen!2sru!4v1234567890"
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Message subject" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+
+        <div class="contact-info">
+            <div class="info-card">
+                <h4> Address</h4>
+                <p>Orenburg,<br>Mira St. 4B</p>
+            </div>
+            <div class="info-card">
+                <h4> Phone</h4>
+                <p>+7 (3532) 12-34-56<br>+7 (900) 123-45-67</p>
+            </div>
+            <div class="info-card">
+                <h4> Email</h4>
+                <p>info@annambrahma.ru<br>reservations@annambrahma.ru</p>
+            </div>
+            <div class="info-card">
+                <h4> Hours</h4>
+                <p>Mon - Sun<br>12:00 - 24:00</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-block">
+            <h3>Contacts</h3>
+            <p>Orenburg, Mira St., 4B</p>
+        </div>
+        <div class="footer-block">
+            <h3>Restaurant opening hours</h3>
+            <p>Mon-Sun 12.00 – 24.00</p>
+        </div>
+    </footer>
+
+    <!-- Параллакс эффекты -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const heroImage = document.getElementById('heroImage');
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-parallax');
+            
+            if (heroImage && heroSection) {
+                const heroOffset = heroSection.offsetTop;
+                const heroHeight = heroSection.offsetHeight;
+                if (scrolled < heroOffset + heroHeight) {
+                    heroImage.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.parallax-circle').forEach((circle, index) => {
+                circle.style.transform = `translateY(${-(scrolled * (0.2 + index * 0.1))}px)`;
+            });
+            document.querySelectorAll('.parallax-diamond').forEach((diamond, index) => {
+                diamond.style.transform = `rotate(45deg) translateY(${-(scrolled * (0.3 + index * 0.15))}px)`;
+            });
+        });
+    </script>
+
+    <!-- Логика отправки контактов (БД) -->
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Чтобы сообщение сохранилось в базе и было видно в админке,
+            // мы запишем его в таблицу Bookings
+            const r = await Auth.addBooking({
+                date: 'Сообщение',
+                name: formData.name + ' (Тема: ' + formData.subject + ')',
+                guests: 1,
+                time: '--:--',
+                email: formData.email,
+                phone: formData.phone
+            });
+            
+            if (r.success) {
+                alert('✓ Сообщение отправлено! Мы свяжемся с вами.');
+                document.getElementById('contactForm').reset();
+            } else {
+                alert('✗ Ошибка: ' + (r.message || 'Не удалось отправить'));
+            }
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    </script>
+</body>
+</html>

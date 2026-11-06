@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annam Brahma - Cabinet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lora', Georgia, serif; color: #3a3226; background-color: #d4c5a9;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"), linear-gradient(135deg, #d9ccb0 0%, #cfc2a4 25%, #d6cab0 50%, #cdc0a6 75%, #d4c7ab 100%);
+            background-blend-mode: overlay, normal; min-height: 100vh; display: flex; flex-direction: column;
+        }
+        header { background: #000; padding: 20px 0 22px; flex-shrink: 0; }
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 35px; padding: 0 20px; flex-wrap: wrap; }
+        nav a, nav button { color: #d4c5a9; background: none; border: none; cursor: pointer; text-decoration: none; font-family: 'Luxurious Script', cursive; font-size: 32px; letter-spacing: 2px; transition: color .3s; line-height: 1.2; }
+        nav a:hover, nav button:hover { color: #c9a96e; }
+        .header-line { max-width: 1200px; margin: 5px auto 0; height: 1px; background: linear-gradient(90deg, transparent, #c9a96e 20%, #c9a96e 80%, transparent); }
+        
+        .content { max-width: 1100px; margin: 0 auto; padding: 50px 30px; flex: 1; width: 100%; display: flex; gap: 30px; }
+        
+        .section-title { font-family: 'Luxurious Script', cursive; font-size: 48px; color: #3a3226; text-align: center; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .section-title::before, .section-title::after { content: '♦'; font-size: 12px; color: #c9a96e; }
+
+        /* Профиль */
+        .profile-sidebar { flex: 0 0 320px; border: 3px solid #c9a96e; background: rgba(255,255,255,0.4); padding: 30px; text-align: center; height: fit-content; }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; background: #c9a96e; color: #fff; font-size: 48px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Luxurious Script', cursive; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .user-name { font-family: 'Luxurious Script', cursive; font-size: 36px; margin-bottom: 5px; }
+        .user-role { font-size: 14px; color: #b8860b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; font-weight: bold; }
+        .user-info p { margin-bottom: 12px; font-size: 15px; border-bottom: 1px dashed rgba(201,169,110,.5); padding-bottom: 8px; text-align: left; }
+        .user-info span { font-weight: bold; color: #5a4a30; }
+        .btn { display: inline-block; padding: 12px 20px; border: 2px solid #c9a96e; background: transparent; font-family: 'Lora', serif; font-size: 15px; color: #3a3226; cursor: pointer; transition: all .25s; text-decoration: none; margin-top: 15px; width: 100%; }
+        .btn:hover { background: #c9a96e; color: #fff; }
+        .btn-danger { border-color: #a14b4b; color: #7a2c2c; }
+        .btn-danger:hover { background: #a14b4b; color: #fff; }
+
+        /* Чат */
+        .chat-container { flex: 1; border: 3px solid #c9a96e; background: rgba(255,255,255,0.4); display: flex; flex-direction: column; height: 600px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .chat-header { padding: 20px; border-bottom: 2px solid #c9a96e; background: rgba(201,169,110,.2); font-family: 'Luxurious Script', cursive; font-size: 32px; text-align: center; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.02); }
+        
+        .msg { max-width: 75%; padding: 12px 18px; border-radius: 12px; font-size: 15px; line-height: 1.5; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .msg.mine { align-self: flex-end; background: #c9a96e; color: #fff; border-bottom-right-radius: 2px; }
+        .msg.theirs { align-self: flex-start; background: #fff; border: 1px solid #e0d0b0; color: #3a3226; border-bottom-left-radius: 2px; }
+        .msg-time { font-size: 11px; opacity: 0.7; margin-top: 5px; display: block; text-align: right; }
+
+        .chat-input-area { padding: 15px; border-top: 2px solid #c9a96e; display: flex; gap: 10px; background: rgba(255,255,255,0.5); }
+        .chat-input-area input { flex: 1; padding: 14px; border: 2px solid #c9a96e; background: #fff; font-family: 'Lora', serif; font-size: 15px; outline: none; }
+        .chat-input-area button { padding: 14px 30px; background: #3a3226; color: #d4c5a9; border: none; font-family: 'Luxurious Script', cursive; font-size: 24px; cursor: pointer; transition: background 0.3s; }
+        .chat-input-area button:hover { background: #c9a96e; color: #000; }
+
+        @media (max-width: 900px) {
+            .content { flex-direction: column; }
+            .profile-sidebar { flex: 0 0 auto; width: 100%; }
+            .chat-container { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Main</a>
+            <a href="menu.html">Menu</a>
+            <a href="booking.html">Booking</a>
+            <a href="events.html">Events</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="chefs.html">Chefs</a>
+            <a href="admin.html" id="navAdmin" style="display:none;">Admin</a>
+            <button onclick="Auth.logout()">Logout</button>
+        </nav>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="content">
+        <!-- Левая колонка -->
+        <div class="profile-sidebar">
+            <div class="avatar" id="avatar">U</div>
+            <div class="user-name" id="userName">Загрузка...</div>
+            <div class="user-role" id="userRole">user</div>
+            <div class="user-info" id="userInfo"></div>
+            <a href="booking.html" class="btn">Забронировать столик</a>
+            <button class="btn btn-danger" onclick="Auth.logout()">Выйти</button>
+        </div>
+
+        <!-- Чат -->
+        <div class="chat-container">
+            <div class="chat-header">Чат с рестораном</div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <form class="chat-input-area" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Напишите сообщение..." autocomplete="off" required>
+                <button type="submit">➤</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        (function() {
+            const me = Auth.me();
+            if (!me) { window.location.href = 'login.html'; return; }
+
+            // Показываем вкладку Админ, если зашел админ
+            if (me.role === 'admin') {
+                document.getElementById('navAdmin').style.display = 'inline-block';
+            }
+
+            // Заполняем профиль
+            document.getElementById('avatar').textContent = me.name.charAt(0).toUpperCase();
+            document.getElementById('userName').textContent = me.name;
+            document.getElementById('userRole').textContent = me.role;
+            
+            const db = Auth.getAll();
+            const fullUser = db.users.find(u => u.id === me.id);
+            
+            document.getElementById('userInfo').innerHTML = `
+                <p><span>Login:</span> ${fullUser.login}</p>
+                <p><span>Email:</span> ${fullUser.email || '—'}</p>
+                <p><span>Phone:</span> ${fullUser.phone || '—'}</p>
+                <p><span>Дата рег.:</span> ${new Date(fullUser.createdAt).toLocaleDateString()}</p>
+            `;
+
+            // Логика чата
+            const chatMessages = document.getElementById('chatMessages');
+            const chatForm = document.getElementById('chatForm');
+            const chatInput = document.getElementById('chatInput');
+
+            function renderChat() {
+                Auth.markChatRead(me.id); // Помечаем прочитанным
+                
+                const msgs = Auth.getChat(me.id);
+                chatMessages.innerHTML = '';
+                
+                if (msgs.length === 0) {
+                    chatMessages.innerHTML = '<div style="text-align:center; color:#7a6a52; font-style:italic; margin-top:20px;">История сообщений пуста. Напишите нам!</div>';
+                    return;
+                }
+
+                msgs.forEach(m => {
+                    const isMine = m.fromUserId === me.id;
+                    const div = document.createElement('div');
+                    div.className = `msg ${isMine ? 'mine' : 'theirs'}`;
+                    const time = new Date(m.at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                    
+                    div.innerHTML = `
+                        <div>${m.text}</div>
+                        <span class="msg-time">${time}</span>
+                    `;
+                    chatMessages.appendChild(div);
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const text = chatInput.value.trim();
+                if (!text) return;
+                Auth.sendMessage(text);
+                chatInput.value = '';
+                renderChat();
+            });
+
+            renderChat();
+            setInterval(renderChat, 3000); // Автообновление
+        })();
+    </script>
+</body>
+</html>
