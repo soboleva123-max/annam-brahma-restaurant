@@ -23,7 +23,7 @@
         .section-title { font-family: 'Luxurious Script', cursive; font-size: 48px; color: #3a3226; text-align: center; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 15px; }
         .section-title::before, .section-title::after { content: '♦'; font-size: 12px; color: #c9a96e; }
 
-        /* Профиль */
+        
         .profile-sidebar { flex: 0 0 320px; border: 3px solid #c9a96e; background: rgba(255,255,255,0.4); padding: 30px; text-align: center; height: fit-content; }
         .avatar { width: 100px; height: 100px; border-radius: 50%; background: #c9a96e; color: #fff; font-size: 48px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Luxurious Script', cursive; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .user-name { font-family: 'Luxurious Script', cursive; font-size: 36px; margin-bottom: 5px; }
@@ -35,7 +35,7 @@
         .btn-danger { border-color: #a14b4b; color: #7a2c2c; }
         .btn-danger:hover { background: #a14b4b; color: #fff; }
 
-        /* Чат */
+        
         .chat-container { flex: 1; border: 3px solid #c9a96e; background: rgba(255,255,255,0.4); display: flex; flex-direction: column; height: 600px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .chat-header { padding: 20px; border-bottom: 2px solid #c9a96e; background: rgba(201,169,110,.2); font-family: 'Luxurious Script', cursive; font-size: 32px; text-align: center; }
         .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.02); }
@@ -74,7 +74,7 @@
     </header>
 
     <div class="content">
-        <!-- Левая колонка -->
+        
         <div class="profile-sidebar">
             <div class="avatar" id="avatar">U</div>
             <div class="user-name" id="userName">Загрузка...</div>
@@ -84,7 +84,7 @@
             <button class="btn btn-danger" onclick="Auth.logout()">Выйти</button>
         </div>
 
-        <!-- Чат -->
+        
         <div class="chat-container">
             <div class="chat-header">Чат с рестораном</div>
             <div class="chat-messages" id="chatMessages"></div>
@@ -101,12 +101,12 @@
             const me = Auth.me();
             if (!me) { window.location.href = 'login.html'; return; }
 
-            // Показываем вкладку Админ, если зашел админ
+            
             if (me.role === 'admin') {
                 document.getElementById('navAdmin').style.display = 'inline-block';
             }
 
-            // Заполняем профиль
+            
             document.getElementById('avatar').textContent = me.name.charAt(0).toUpperCase();
             document.getElementById('userName').textContent = me.name;
             document.getElementById('userRole').textContent = me.role;
@@ -121,13 +121,13 @@
                 <p><span>Дата рег.:</span> ${new Date(fullUser.createdAt).toLocaleDateString()}</p>
             `;
 
-            // Логика чата
+            
             const chatMessages = document.getElementById('chatMessages');
             const chatForm = document.getElementById('chatForm');
             const chatInput = document.getElementById('chatInput');
 
             function renderChat() {
-                Auth.markChatRead(me.id); // Помечаем прочитанным
+                Auth.markChatRead(me.id); 
                 
                 const msgs = Auth.getChat(me.id);
                 chatMessages.innerHTML = '';
@@ -162,7 +162,7 @@
             });
 
             renderChat();
-            setInterval(renderChat, 3000); // Автообновление
+            setInterval(renderChat, 3000); 
         })();
     </script>
 </body>

@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Упрощённая проверка авторизации
+
 app.use(async (req, res, next) => {
   const token = req.headers['x-session-token'];
   if (!token) return next();
@@ -22,7 +22,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Логин
+
 app.post('/api/login', async (req, res) => {
   try {
     const pool = await getPool();
@@ -38,7 +38,7 @@ app.post('/api/login', async (req, res) => {
   } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// Регистрация
+
 app.post('/api/register', async (req, res) => {
   try {
     const pool = await getPool();
@@ -49,7 +49,7 @@ app.post('/api/register', async (req, res) => {
   } catch (e) { res.json({ success: false, message: 'Ошибка: ' + e.message }); }
 });
 
-// Данные для админки
+
 app.get('/api/all', async (req, res) => {
   try {
     const pool = await getPool();
@@ -58,11 +58,11 @@ app.get('/api/all', async (req, res) => {
   } catch (e) { res.json({ error: e.message }); }
 });
 
-// ---- СОХРАНЕНИЕ БРОНИ / КОНТАКТОВ ----
+
 app.post('/api/bookings', async (req, res) => {
   try {
     const pool = await getPool();
-    // Отправляем ровно то, что ждет база (Date, Name, Guests, Time, Email, Phone)
+    
     await pool.request()
       .input('d', sql.NVarChar, req.body.date || 'Не указана')
       .input('n', sql.NVarChar, req.body.name || 'Без имени')
@@ -80,4 +80,4 @@ app.get('/api/me', (req, res) => res.json(req.user || {}));
 app.post('/api/logout', (req, res) => res.json({ success: true }));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(` http://localhost:${PORT}`));
